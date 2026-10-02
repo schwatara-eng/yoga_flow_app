@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000/v1/poses';
+const API_URL = 'http://localhost:3000/api/poses';
 
 const POSE_NAMES = {
   "Boat": {

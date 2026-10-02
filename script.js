@@ -1,4 +1,5 @@
-// Live Server에서 실행 중인 요가 API를 요청합니다.
+const API_URL = 'http://localhost:8000/v1/poses';
+
 const POSE_NAMES = {
   "Boat": {
     korean: "보트 자세",
@@ -290,8 +291,15 @@ const POSE_NAMES = {
   }
 };
 
+function getPoseName(pose) {
+  return POSE_NAMES[pose.english_name] || {
+    korean: pose.english_name,
+    koreanSanskrit: pose.sanskrit_name_adapted || '',
+    roman: pose.sanskrit_name || '',
+    english: pose.english_name
+  };
+}
 
-const API_URL = 'http://localhost:8000/v1/poses';
 const statusText = document.querySelector('#status');
 function textElement(tag, text) { const el = document.createElement(tag); el.textContent = text || ''; return el; }
 function poseImage(pose) { const img = document.createElement('img'); img.src = pose.url_png || pose.url_svg; img.alt = pose.english_name; img.loading = 'lazy'; img.addEventListener('error', () => { img.replaceWith(textElement('span', '이미지를 불러올 수 없습니다')); }); return img; }
@@ -334,8 +342,15 @@ if (name) {
       const id = new URLSearchParams(location.search).get('id');
       const pose = poses.find(p => String(p.id) === id);
       if (!pose) throw new Error('선택한 아사나를 찾을 수 없습니다');
-      document.querySelector('#name').textContent = pose.english_name;
-      document.querySelector('#sanskrit').textContent = pose.sanskrit_name_adapted;
+const name = getPoseName(pose);
+
+document.querySelector('#name').textContent = name.korean;
+document.querySelector('#english-name').textContent = name.english;
+document.querySelector('#sanskrit-roman').textContent = name.roman;
+document.querySelector('#sanskrit-korean').textContent = name.koreanSanskrit;
+
+document.querySelector('#description').textContent = pose.pose_description;
+document.title = `${name.korean} — ASANA`;
       document.querySelector('#description').textContent = pose.pose_description;
       document.title = `${pose.english_name} — ASANA`;
       const media = (window.ASANA_MEDIA || {})[pose.english_name] || {};

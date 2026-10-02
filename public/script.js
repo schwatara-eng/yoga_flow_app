@@ -362,8 +362,9 @@ async function start() {
     if (!Array.isArray(poses)) throw new Error('응답 데이터가 배열이 아닙니다');
     const cards = document.querySelector('#cards');
     if (cards) {
-      function render() {
-        cards.replaceChildren();
+      function render(preserveScroll = false) {
+        // 검색/필터링으로 카드 목록을 다시 그릴 때 현재 스크롤 위치를 기억한다.
+        const savedScrollY = preserveScroll ? window.scrollY : 0;
         const query = (document.querySelector('#search')?.value || '').trim().toLowerCase();
         const level = document.querySelector('#level-filter')?.value || '';
         const bodyArea = document.querySelector('#body-filter')?.value || '';
@@ -387,6 +388,10 @@ async function start() {
 
           return matchesSearch && matchesLevel && matchesBody;
         });
+        // 먼저 메모리 안에서 카드들을 만든 뒤 한 번에 교체한다.
+        // 이렇게 하면 DOM을 비우는 순간 페이지 높이가 줄어들며 위로 튀는 현상을 줄일 수 있다.
+        const fragment = document.createDocumentFragment();
+
         results.forEach(pose => {
           const card = document.createElement('a'); card.className = 'card'; card.href = `detail.html?id=${encodeURIComponent(pose.id)}`;
           const picture = document.createElement('div'); picture.className = 'card-picture'; picture.append(poseImage(pose));
@@ -406,14 +411,23 @@ if (name) {
     textElement('h3', pose.english_name),
     textElement('p', pose.sanskrit_name_adapted)
   );
-} cards.append(card);
+}
+          fragment.append(card);
         });
+
+        cards.replaceChildren(fragment);
         statusText.textContent = `${results.length}개의 아사나`;
+
+        if (preserveScroll) {
+          requestAnimationFrame(() => {
+            window.scrollTo({ top: savedScrollY, left: 0, behavior: 'auto' });
+          });
+        }
       }
       render();
-      document.querySelector('#search')?.addEventListener('input', render);
-      document.querySelector('#level-filter')?.addEventListener('change', render);
-      document.querySelector('#body-filter')?.addEventListener('change', render);
+      document.querySelector('#search')?.addEventListener('input', () => render(true));
+      document.querySelector('#level-filter')?.addEventListener('change', () => render(true));
+      document.querySelector('#body-filter')?.addEventListener('change', () => render(true));
     } else {
       const id = new URLSearchParams(location.search).get('id');
       const pose = poses.find(p => String(p.id) === id);

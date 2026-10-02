@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/poses';
+const API_URL = '/api/poses';
 
 const POSE_NAMES = {
   "Boat": {
@@ -305,7 +305,7 @@ function textElement(tag, text) { const el = document.createElement(tag); el.tex
 function poseImage(pose) { const img = document.createElement('img'); img.src = pose.url_png || pose.url_svg; img.alt = pose.english_name; img.loading = 'lazy'; img.addEventListener('error', () => { img.replaceWith(textElement('span', '이미지를 불러올 수 없습니다')); }); return img; }
 async function start() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch("/api/poses");
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const poses = await response.json();
     if (!Array.isArray(poses)) throw new Error('응답 데이터가 배열이 아닙니다');

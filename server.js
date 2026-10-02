@@ -1,11 +1,12 @@
 require("dotenv").config();
 
+const path = require("path");
 const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -20,6 +21,12 @@ const pool = mysql.createPool({
 });
 
 // 요가 자세 전체 조회 API
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 app.get("/api/poses", async (req, res) => {
   try {
     const [rows] = await pool.query(
@@ -35,6 +42,8 @@ app.get("/api/poses", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`서버 실행: http://localhost:${PORT}`);
+const server = app.listen(PORT, "0.0.0.0", () => {
+  console.log(`서버 실행 중: http://localhost:${PORT}`);
 });
+
+module.exports = app;

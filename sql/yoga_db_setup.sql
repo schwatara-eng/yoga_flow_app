@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS yoga_db;
 
 USE yoga_db;
 
--- DROP TABLE IF EXISTS poses;
+DROP TABLE IF EXISTS poses;
 
 CREATE TABLE poses (
     id INT PRIMARY KEY,

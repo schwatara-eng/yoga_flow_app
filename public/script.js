@@ -291,6 +291,57 @@ const POSE_NAMES = {
   }
 };
 
+const POSE_BODY_AREAS = {
+  "Boat": ["코어", "엉덩관절", "허벅지"],
+  "Half Boat": ["코어", "엉덩관절", "허벅지"],
+  "Bow": ["가슴", "등", "엉덩관절", "허벅지"],
+  "Bridge": ["가슴", "등", "둔근", "허벅지"],
+  "Butterfly": ["엉덩관절", "허벅지", "무릎"],
+  "Camel": ["가슴", "어깨", "등", "엉덩관절"],
+  "Cat": ["목", "어깨", "등", "코어"],
+  "Cow": ["목", "어깨", "가슴", "등"],
+  "Chair": ["코어", "둔근", "허벅지", "발목"],
+  "Child's Pose": ["어깨", "등", "엉덩관절"],
+  "Corpse": ["목", "어깨", "등"],
+  "Crescent Lunge": ["엉덩관절", "둔근", "허벅지", "발목"],
+  "Crow": ["어깨", "팔", "손목", "코어"],
+  "Dolphin": ["어깨", "팔", "등", "코어"],
+  "Downward-Facing Dog": ["어깨", "팔", "손목", "햄스트링", "종아리"],
+  "Eagle": ["어깨", "엉덩관절", "허벅지", "발목"],
+  "Extended Hand to Toe": ["엉덩관절", "햄스트링", "허벅지", "발목"],
+  "Extended Side Angle": ["어깨", "가슴", "엉덩관절", "허벅지"],
+  "Forearm Stand": ["어깨", "팔", "코어", "등"],
+  "Forward Bend with Shoulder Opener": ["어깨", "등", "햄스트링"],
+  "Half-Moon": ["코어", "엉덩관절", "둔근", "발목"],
+  "Handstand": ["어깨", "팔", "손목", "코어"],
+  "Low Lunge": ["엉덩관절", "둔근", "허벅지", "발목"],
+  "Pigeon": ["엉덩관절", "둔근", "허벅지"],
+  "King Pigeon": ["가슴", "어깨", "등", "엉덩관절"],
+  "Plank": ["어깨", "팔", "손목", "코어"],
+  "Plow": ["목", "어깨", "등", "햄스트링"],
+  "Pyramid": ["엉덩관절", "햄스트링", "종아리"],
+  "Reverse Warrior": ["어깨", "가슴", "엉덩관절", "허벅지"],
+  "Seated Forward Bend": ["등", "엉덩관절", "햄스트링"],
+  "Lotus": ["엉덩관절", "무릎", "발목"],
+  "Half Lord of the Fishes": ["어깨", "등", "코어", "엉덩관절"],
+  "Shoulder Stand": ["목", "어깨", "코어"],
+  "Side Plank": ["어깨", "팔", "손목", "코어"],
+  "Sphinx": ["가슴", "어깨", "등"],
+  "Splits": ["엉덩관절", "햄스트링", "허벅지"],
+  "Garland Pose": ["엉덩관절", "둔근", "무릎", "발목"],
+  "Standing Forward Bend": ["등", "햄스트링", "종아리"],
+  "Crescent Moon": ["어깨", "가슴", "코어", "엉덩관절"],
+  "Side Splits": ["엉덩관절", "햄스트링", "허벅지"],
+  "Tree": ["엉덩관절", "둔근", "허벅지", "발목"],
+  "Triangle": ["어깨", "가슴", "엉덩관절", "햄스트링"],
+  "Upward-Facing Dog": ["가슴", "어깨", "팔", "등"],
+  "Warrior One": ["어깨", "엉덩관절", "둔근", "허벅지"],
+  "Warrior Two": ["어깨", "엉덩관절", "둔근", "허벅지"],
+  "Warrior Three": ["코어", "둔근", "햄스트링", "발목"],
+  "Wheel": ["가슴", "어깨", "팔", "등"],
+  "Wild Thing": ["가슴", "어깨", "팔", "등", "둔근"]
+};
+
 function getPoseName(pose) {
   return POSE_NAMES[pose.english_name] || {
     korean: pose.english_name,
@@ -311,9 +362,31 @@ async function start() {
     if (!Array.isArray(poses)) throw new Error('응답 데이터가 배열이 아닙니다');
     const cards = document.querySelector('#cards');
     if (cards) {
-      function render(query = '') {
+      function render() {
         cards.replaceChildren();
-        const results = poses.filter(p => `${p.english_name} ${p.sanskrit_name_adapted}`.toLowerCase().includes(query.toLowerCase()));
+        const query = (document.querySelector('#search')?.value || '').trim().toLowerCase();
+        const level = document.querySelector('#level-filter')?.value || '';
+        const bodyArea = document.querySelector('#body-filter')?.value || '';
+
+        const results = poses.filter(p => {
+          const name = getPoseName(p);
+          const searchable = [
+            p.english_name,
+            p.sanskrit_name_adapted,
+            p.sanskrit_name,
+            name.korean,
+            name.koreanSanskrit,
+            name.roman,
+            name.english
+          ].filter(Boolean).join(' ').toLowerCase();
+
+          const matchesSearch = !query || searchable.includes(query);
+          const matchesLevel = !level || p.difficulty_level === level;
+          const areas = POSE_BODY_AREAS[p.english_name] || [];
+          const matchesBody = !bodyArea || areas.includes(bodyArea);
+
+          return matchesSearch && matchesLevel && matchesBody;
+        });
         results.forEach(pose => {
           const card = document.createElement('a'); card.className = 'card'; card.href = `detail.html?id=${encodeURIComponent(pose.id)}`;
           const picture = document.createElement('div'); picture.className = 'card-picture'; picture.append(poseImage(pose));
@@ -337,7 +410,10 @@ if (name) {
         });
         statusText.textContent = `${results.length}개의 아사나`;
       }
-      render(); document.querySelector('#search').addEventListener('input', e => render(e.target.value));
+      render();
+      document.querySelector('#search')?.addEventListener('input', render);
+      document.querySelector('#level-filter')?.addEventListener('change', render);
+      document.querySelector('#body-filter')?.addEventListener('change', render);
     } else {
       const id = new URLSearchParams(location.search).get('id');
       const pose = poses.find(p => String(p.id) === id);

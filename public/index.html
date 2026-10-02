@@ -22,8 +22,37 @@
         <section>
             <div class="section-head">
                 <h2>아사나 둘러보기</h2>
-                <label>이름 검색
-                    <input id="search" type="search" placeholder="Tree, Boat…"></label>
+                <div class="filters">
+                    <label>이름 검색
+                        <input id="search" type="search" placeholder="자세 이름을 검색하세요"></label>
+                    <label>난이도
+                        <select id="level-filter">
+                            <option value="">전체</option>
+                            <option value="Beginner">초급</option>
+                            <option value="Intermediate">중급</option>
+                            <option value="Expert">고급</option>
+                        </select>
+                    </label>
+                    <label>주요 신체 부위
+                        <select id="body-filter">
+                            <option value="">전체</option>
+                            <option>목</option>
+                            <option>어깨</option>
+                            <option>가슴</option>
+                            <option>팔</option>
+                            <option>손목</option>
+                            <option>등</option>
+                            <option>코어</option>
+                            <option>엉덩관절</option>
+                            <option>둔근</option>
+                            <option>햄스트링</option>
+                            <option>허벅지</option>
+                            <option>무릎</option>
+                            <option>종아리</option>
+                            <option>발목</option>
+                        </select>
+                    </label>
+                </div>
             </div>
             <p id="status" role="status">자세를 불러오는 중…</p>
             <div id="cards" class="cards"></div>

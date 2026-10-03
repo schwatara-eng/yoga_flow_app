@@ -596,28 +596,45 @@ function renderRoutine(routine, matchingCount) {
   status.textContent = `${matchingCount}개의 후보 중 ${routine.length}개 자세로 루틴을 만들었습니다.`;
   const fragment = document.createDocumentFragment();
 
-  routine.forEach(({ pose, role }, index) => {
-    const item = document.createElement('a');
-    item.className = 'routine-card';
-    item.href = `detail.html?id=${encodeURIComponent(pose.id)}`;
+  for (let start = 0; start < routine.length; start += 4) {
+    const row = document.createElement('div');
+    row.className = 'routine-row';
+    const chunk = routine.slice(start, start + 4);
 
-    const order = textElement('span', String(index + 1).padStart(2, '0'));
-    order.className = 'routine-order';
+    chunk.forEach(({ pose, role }, indexInChunk) => {
+      const index = start + indexInChunk;
+      const item = document.createElement('a');
+      item.className = 'routine-card';
+      item.href = `detail.html?id=${encodeURIComponent(pose.id)}`;
 
-    const imageWrap = document.createElement('div');
-    imageWrap.className = 'routine-picture';
-    imageWrap.append(poseImage(pose));
+      const order = textElement('span', String(index + 1).padStart(2, '0'));
+      order.className = 'routine-order';
 
-    const text = document.createElement('div');
-    text.className = 'routine-copy';
-    const name = getPoseName(pose);
-    const title = textElement('h3', name.korean);
-    const meta = textElement('p', `${role} · ${POSE_INTENSITIES[pose.english_name] || '보통'} · ${name.english}`);
-    text.append(title, meta);
+      const imageWrap = document.createElement('div');
+      imageWrap.className = 'routine-picture';
+      imageWrap.append(poseImage(pose));
 
-    item.append(order, imageWrap, text);
-    fragment.append(item);
-  });
+      const text = document.createElement('div');
+      text.className = 'routine-copy';
+      const name = getPoseName(pose);
+      const title = textElement('h3', name.korean);
+      const meta = textElement('p', `${role} · ${POSE_INTENSITIES[pose.english_name] || '보통'} · ${name.english}`);
+      text.append(title, meta);
+
+      item.append(order, imageWrap, text);
+      row.append(item);
+
+      if (indexInChunk < chunk.length - 1) {
+        const arrow = document.createElement('div');
+        arrow.className = 'routine-arrow';
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.textContent = '→';
+        row.append(arrow);
+      }
+    });
+
+    fragment.append(row);
+  }
 
   result.append(fragment);
 }

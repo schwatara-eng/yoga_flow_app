@@ -12,9 +12,20 @@
 
 body {
     margin: 0;
-    background: var(--paper);
+
+    background:
+        linear-gradient(
+            rgba(245, 243, 238, 0.4),
+            rgba(245, 243, 238, 0.4)
+        ),
+        url("images/stocksnap-sunset-2631775.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
     color: var(--ink);
-    font-family: Arial, 'Noto Sans KR', sans-serif
+    font-family: Arial, 'Noto Sans KR', sans-serif;
 }
 
 a {
@@ -30,6 +41,12 @@ header {
     border-bottom: 1px solid var(--line);
     gap: 20px;
     font-size: 13px
+}
+
+header > span {
+    text-align: right;
+    line-height: 1.6;
+    margin-left: auto;
 }
 
 .brand {

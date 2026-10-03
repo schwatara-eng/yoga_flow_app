@@ -363,8 +363,17 @@ async function start() {
     const cards = document.querySelector('#cards');
     if (cards) {
       function render(preserveScroll = false) {
-        // 검색/필터링으로 카드 목록을 다시 그릴 때 현재 스크롤 위치를 기억한다.
+        // 검색/필터링 전의 스크롤 위치와 카드 영역 높이를 기억한다.
+        // 결과가 줄어들어 페이지 전체 높이가 짧아지면 브라우저가 스크롤을 강제로 위로
+        // 보정하므로, 기존 카드 영역 높이를 min-height로 확보해 그 현상을 막는다.
         const savedScrollY = preserveScroll ? window.scrollY : 0;
+        if (preserveScroll) {
+          const currentHeight = cards.offsetHeight;
+          const reservedHeight = parseFloat(cards.style.minHeight) || 0;
+          if (currentHeight > reservedHeight) {
+            cards.style.minHeight = `${currentHeight}px`;
+          }
+        }
         const query = (document.querySelector('#search')?.value || '').trim().toLowerCase();
         const level = document.querySelector('#level-filter')?.value || '';
         const bodyArea = document.querySelector('#body-filter')?.value || '';
@@ -419,13 +428,25 @@ if (name) {
         statusText.textContent = `${results.length}개의 아사나`;
 
         if (preserveScroll) {
+          // DOM 교체 직후와 다음 프레임에 한 번씩 복원해 브라우저의 자동 스크롤 보정을 막는다.
+          window.scrollTo({ top: savedScrollY, left: 0, behavior: 'auto' });
           requestAnimationFrame(() => {
             window.scrollTo({ top: savedScrollY, left: 0, behavior: 'auto' });
           });
         }
       }
       render();
-      document.querySelector('#search')?.addEventListener('input', () => render(true));
+
+      // 검색어를 입력하는 동안에는 카드 목록을 바꾸지 않는다.
+      // 사용자가 Enter를 눌렀을 때만 검색 결과를 적용한다.
+      const searchInput = document.querySelector('#search');
+      searchInput?.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          render(true);
+        }
+      });
+
       document.querySelector('#level-filter')?.addEventListener('change', () => render(true));
       document.querySelector('#body-filter')?.addEventListener('change', () => render(true));
     } else {

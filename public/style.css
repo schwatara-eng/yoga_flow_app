@@ -160,7 +160,10 @@ select {
 .cards {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 32px 20px
+    column-gap: 20px;
+    row-gap: 16px;
+    align-content: start;
+    grid-auto-rows: auto;
 }
 
 .card {

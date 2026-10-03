@@ -840,11 +840,11 @@ document.title = `${name.korean} — ASANA`;
       const photos = media.photos || []; const gallery = document.querySelector('#gallery');
       statusText.textContent = photos.length ? `${photos.length}장의 사진` : '';
 if (!photos.length) {
-  gallery.className = 'empty';
 
   if (pose.english_name === 'Tree') {
-    const mediaGrid = document.createElement('div');
-    mediaGrid.className = 'tree-media-grid';
+    gallery.className = 'tree-gallery';
+    const treeSection = document.createElement('div');
+    treeSection.className = 'tree-section';
 
     const videoWrap = document.createElement('div');
     videoWrap.className = 'tree-video';
@@ -858,19 +858,21 @@ if (!photos.length) {
 
     videoWrap.append(iframe);
 
-    const infoWrap = document.createElement('div');
-    infoWrap.className = 'tree-photo-note';
+    const photoBox = document.createElement('div');
+    photoBox.className = 'tree-photo-box';
 
-    infoWrap.append(
+    photoBox.append(
       poseImage(pose),
       textElement('h2', '이 자세의 사진을 모으고 있어요.'),
       textElement('p', '다양한 사람들의 사진이 이곳에 펼쳐집니다.')
     );
 
-    mediaGrid.append(videoWrap, infoWrap);
-    gallery.append(mediaGrid);
+    treeSection.append(videoWrap, photoBox);
+    gallery.append(treeSection);
 
   } else {
+    gallery.className = 'empty';
+
     gallery.append(
       poseImage(pose),
       textElement('h2', '이 자세의 사진을 모으고 있어요.'),

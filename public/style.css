@@ -14,10 +14,8 @@ body {
     margin: 0;
 
     background:
-        linear-gradient(
-            rgba(245, 243, 238, 0.4),
-            rgba(245, 243, 238, 0.4)
-        ),
+        linear-gradient(rgba(245, 243, 238, 0.4),
+            rgba(245, 243, 238, 0.4)),
         url("images/stocksnap-sunset-2631775.jpg");
 
     background-size: cover;
@@ -43,7 +41,7 @@ header {
     font-size: 13px
 }
 
-header > span {
+header>span {
     text-align: right;
     line-height: 1.6;
     margin-left: auto;
@@ -52,8 +50,7 @@ header > span {
 .brand {
     font-size: 28px;
     font-weight: 900;
-    letter-spacing: -1px
-    display: flex;
+    letter-spacing: -1px display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
@@ -349,19 +346,23 @@ select:focus-visible {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    font-size: 11px;
-    color: var(--muted)
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
 }
 
 .routine-controls select {
     width: 100%;
     max-width: none;
     margin-left: 0;
-    min-height: 46px;
+    min-height: 48px;
     padding: 0 14px;
     border-radius: 14px;
     background: rgba(245, 243, 238, .9);
-    border-color: rgba(37, 41, 34, .1)
+    border-color: rgba(37, 41, 34, .1);
+
+    font-size: 14px;
+    font-weight: 500;
 }
 
 #create-routine {
@@ -567,15 +568,27 @@ select:focus-visible {
     }
 
     .filters label {
-        width: 100%
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
     }
 
     .filters input,
     .filters select {
-        width: 100%;
-        max-width: none;
-        margin: 6px 0 0
+        font-size: 14px;
+        font-weight: 500;
+
+        background: #ffffff;
+        border: 1px solid rgba(37, 41, 34, 0.14);
+
+        min-height: 46px;
+        padding: 0 14px;
     }
+
+    .filters input::placeholder {
+    color: #9a9a92;
+    background: rgba(255, 255, 255, 0.9);
+}
 
     h1 {
         letter-spacing: -2px

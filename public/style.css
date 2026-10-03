@@ -386,14 +386,15 @@ select:focus-visible {
 }
 
 .routine-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 1fr);
     align-items: center;
-    gap: 12px
+    gap: 10px
 }
 
 .routine-card {
-    flex: 1 1 0;
     min-width: 0;
+    width: 100%;
     display: grid;
     grid-template-columns: 30px 1fr;
     align-items: start;
@@ -411,8 +412,15 @@ select:focus-visible {
     box-shadow: 0 10px 22px rgba(0, 0, 0, .05)
 }
 
+.routine-card-fixed:hover {
+    transform: scale(1.025) translateY(-2px)
+}
+
 .routine-card-fixed {
-    grid-template-columns: 1fr
+    grid-template-columns: 1fr;
+    transform: scale(1.025);
+    position: relative;
+    z-index: 1
 }
 
 .routine-card-fixed .routine-picture,
@@ -566,17 +574,20 @@ select:focus-visible {
     }
 
     .routine-row {
-        flex-wrap: wrap;
-        gap: 10px
+        display: flex;
+        overflow-x: auto;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 6px
     }
 
     .routine-card {
-        flex: 1 1 calc(50% - 18px);
+        flex: 0 0 44vw;
         min-height: 210px
     }
 
     .routine-arrow {
-        flex-basis: 14px;
+        flex: 0 0 18px;
         font-size: 18px
     }
 }
@@ -587,17 +598,19 @@ select:focus-visible {
     }
 
     .routine-row {
-        flex-direction: column;
-        align-items: stretch
+        display: flex;
+        overflow-x: auto;
+        align-items: center
     }
 
     .routine-arrow {
         align-self: center;
-        transform: rotate(90deg)
+        transform: none
     }
 
     .routine-card {
-        width: 100%;
+        flex: 0 0 78vw;
+        width: auto;
         min-height: 0
     }
 }

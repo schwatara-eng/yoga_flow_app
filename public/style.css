@@ -920,5 +920,6 @@ select:focus-visible {
 
     .tree-video {
         width: 280px;
+        margin: 0 auto;
     }
 }

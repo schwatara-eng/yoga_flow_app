@@ -412,24 +412,43 @@ select:focus-visible {
     box-shadow: 0 10px 22px rgba(0, 0, 0, .05)
 }
 
-.routine-card-fixed:hover {
-    transform: scale(1.025) translateY(-2px)
-}
-
 .routine-card-fixed {
-    grid-template-columns: 1fr;
-    transform: scale(1.025);
+    grid-template-columns: 30px 1fr;
     position: relative;
     z-index: 1
 }
 
+.routine-card-fixed::before {
+    content: '';
+    grid-column: 1;
+    grid-row: 1 / span 2
+}
+
 .routine-card-fixed .routine-picture,
 .routine-card-fixed .routine-copy {
-    grid-column: 1
+    grid-column: 2
+}
+
+.routine-card-fixed .routine-picture {
+    background: transparent
+}
+
+.routine-card-start {
+    background: #e9ebdf;
+    border-color: #cbd2bd
+}
+
+.routine-card-end {
+    background: #dfe6e3;
+    border-color: #c6d2ce
 }
 
 .routine-card-fixed .routine-copy h3 {
     color: var(--accent)
+}
+
+.routine-card-fixed:hover {
+    transform: translateY(-2px)
 }
 
 .routine-order {

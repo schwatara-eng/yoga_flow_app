@@ -613,7 +613,12 @@ function renderRoutine(routine, matchingCount, selectedCount) {
 
     chunk.forEach(({ pose, role, fixed }, indexInChunk) => {
       const item = document.createElement('a');
-      item.className = fixed ? 'routine-card routine-card-fixed' : 'routine-card';
+      if (fixed) {
+        const fixedKind = pose.english_name === 'Lotus' ? 'routine-card-start' : 'routine-card-end';
+        item.className = `routine-card routine-card-fixed ${fixedKind}`;
+      } else {
+        item.className = 'routine-card';
+      }
       item.href = `detail.html?id=${encodeURIComponent(pose.id)}`;
 
       if (!fixed) {

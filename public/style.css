@@ -474,23 +474,47 @@ select:focus-visible {
 }
 
 .routine-order {
-    grid-row: 1 / span 2;
-    align-self: start;
-    font-family: Georgia, serif;
-    font-size: 13px;
-    color: var(--accent)
-}
+    position: absolute;
 
-.routine-picture {
-    grid-column: 2;
-    width: 100%;
-    aspect-ratio: 1 / 1;
+    top: 24px;
+    left: 24px;
+
+    width: 30px;
+    height: 30px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(102, 117, 77, .9);
+    color: #fff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    z-index: 2;
+}
+
+.routine-picture {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background: #e9ebdf;
     overflow: hidden;
-    margin-bottom: 12px
+
+    margin: 0 auto 14px;
+}
+
+.routine-picture img {
+    width: 78%;
+    height: 78%;
+    object-fit: contain;
 }
 
 .routine-picture img {
@@ -500,20 +524,20 @@ select:focus-visible {
 }
 
 .routine-copy {
-    grid-column: 2;
-    min-width: 0
+    width: 100%;
+    text-align: center;
 }
 
 .routine-copy h3 {
     margin: 0 0 6px;
-    font-size: 16px
+    font-size: 16px;
 }
 
 .routine-copy p {
     margin: 0;
     color: var(--muted);
     font-size: 11px;
-    line-height: 1.5
+    line-height: 1.5;
 }
 
 .routine-arrow {
@@ -634,10 +658,27 @@ select:focus-visible {
         padding-bottom: 6px
     }
 
-    .routine-card {
-        flex: 0 0 44vw;
-        min-height: 210px
-    }
+.routine-card {
+    position: relative;
+
+    flex: 1 1 0;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    min-height: 242px;
+    padding: 14px;
+
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, .26);
+
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        box-shadow .18s ease;
+}
 
     .routine-arrow {
         flex: 0 0 18px;

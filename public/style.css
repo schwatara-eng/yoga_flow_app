@@ -16,7 +16,7 @@ body {
     background:
         linear-gradient(rgba(245, 243, 238, 0.4),
             rgba(245, 243, 238, 0.4)),
-        url("images/8moments-mountains-3605113.jpg");
+        url("images/photo-1514477917009-389c76a86b68.jpg");
 
     background-size: cover;
     background-position: center;
@@ -127,12 +127,34 @@ select {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 14px;
-    flex-wrap: wrap
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 .filters label {
-    white-space: nowrap
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.filters input,
+.filters select {
+    min-height: 44px;
+    padding: 0 14px;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(37, 41, 34, 0.12);
+    border-radius: 10px;
+
+    backdrop-filter: blur(4px);
+}
+
+.filters input::placeholder {
+    color: #9a9b94;
 }
 
 .cards {
@@ -276,15 +298,37 @@ footer {
     padding: 25px 5%;
     border-top: 1px solid var(--line);
     font-size: 11px;
+    font-color: white
     color: var(--muted)
 }
 
 a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible {
+button:focus-visible {
     outline: 3px solid var(--accent);
-    outline-offset: 4px
+    outline-offset: 4px;
+}
+
+input:focus,
+input:focus-visible,
+select:focus,
+select:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.filters input:focus,
+.filters select:focus {
+    border-color: rgba(37, 41, 34, 0.12);
+}
+
+select:focus,
+select:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.filters select:focus {
+    border-color: rgba(37, 41, 34, 0.12);
 }
 
 

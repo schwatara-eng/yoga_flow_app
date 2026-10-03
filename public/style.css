@@ -913,6 +913,22 @@ select:focus-visible {
 }
 
 @media (max-width: 768px) {
+    .routine-row {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .routine-card {
+        width: 100%;
+    }
+
+    .routine-arrow {
+        transform: rotate(90deg);
+        align-self: center;
+        margin: 4px 0;
+    }
+
     .tree-section {
         grid-template-columns: 1fr;
         gap: 36px;

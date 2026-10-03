@@ -411,6 +411,19 @@ select:focus-visible {
     box-shadow: 0 10px 22px rgba(0, 0, 0, .05)
 }
 
+.routine-card-fixed {
+    grid-template-columns: 1fr
+}
+
+.routine-card-fixed .routine-picture,
+.routine-card-fixed .routine-copy {
+    grid-column: 1
+}
+
+.routine-card-fixed .routine-copy h3 {
+    color: var(--accent)
+}
+
 .routine-order {
     grid-row: 1 / span 2;
     align-self: start;

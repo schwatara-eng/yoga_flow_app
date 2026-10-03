@@ -533,15 +533,21 @@ function shuffled(items) {
 }
 
 function routineRolePlan(count) {
-  if (count === 4) return ["준비", "본운동", "마무리", "최종 이완"];
-  if (count === 8) return ["준비", "준비", "본운동", "본운동", "본운동", "마무리", "마무리", "최종 이완"];
-  return ["준비", "준비", "본운동", "본운동", "마무리", "최종 이완"];
+  // 사용자가 고른 "자세 수"는 연꽃 자세와 송장 자세를 제외한 본 루틴 개수다.
+  if (count === 4) return ["준비", "본운동", "본운동", "마무리"];
+  if (count === 8) return ["준비", "준비", "본운동", "본운동", "본운동", "본운동", "마무리", "마무리"];
+  return ["준비", "준비", "본운동", "본운동", "마무리", "마무리"];
 }
 
 function makeRoutine(poses, options) {
   const { level, goal, bodyArea, intensity, count } = options;
+  const lotus = poses.find((pose) => pose.english_name === "Lotus");
+  const corpse = poses.find((pose) => pose.english_name === "Corpse");
 
+  // 연꽃 자세와 송장 자세는 필터와 자세 수 계산에서 제외한다.
   const matching = poses.filter((pose) => {
+    if (["Lotus", "Corpse"].includes(pose.english_name)) return false;
+
     const areas = POSE_BODY_AREAS[pose.english_name] || [];
     const goals = POSE_GOALS[pose.english_name] || [];
     const poseIntensity = POSE_INTENSITIES[pose.english_name] || "보통";
@@ -551,21 +557,15 @@ function makeRoutine(poses, options) {
       && (!intensity || poseIntensity === intensity);
   });
 
-  if (!matching.length) return { routine: [], matchingCount: 0 };
+  if (!matching.length) return { routine: [], matchingCount: 0, selectedCount: 0 };
 
   const plan = routineRolePlan(count);
   const unused = new Set(matching.map((pose) => String(pose.id)));
-  const routine = [];
+  const selectedRoutine = [];
 
   plan.forEach((role) => {
     let pool = matching.filter((pose) => unused.has(String(pose.id))
       && (POSE_SEQUENCE_ROLES[pose.english_name] || []).includes(role));
-
-    // 최종 이완은 조건에 맞는 자세가 없으면 사바사나/아기 자세를 전체 데이터에서 보완한다.
-    if (!pool.length && role === "최종 이완") {
-      pool = poses.filter((pose) => unused.has(String(pose.id))
-        && ["Corpse", "Child's Pose", "Lotus"].includes(pose.english_name));
-    }
 
     if (!pool.length) {
       pool = matching.filter((pose) => unused.has(String(pose.id)));
@@ -573,15 +573,24 @@ function makeRoutine(poses, options) {
 
     const selected = shuffled(pool)[0];
     if (selected) {
-      routine.push({ pose: selected, role });
+      selectedRoutine.push({ pose: selected, role, fixed: false });
       unused.delete(String(selected.id));
     }
   });
 
-  return { routine, matchingCount: matching.length };
+  const routine = [];
+  if (lotus) routine.push({ pose: lotus, role: "시작", fixed: true });
+  routine.push(...selectedRoutine);
+  if (corpse) routine.push({ pose: corpse, role: "최종 이완", fixed: true });
+
+  return {
+    routine,
+    matchingCount: matching.length,
+    selectedCount: selectedRoutine.length
+  };
 }
 
-function renderRoutine(routine, matchingCount) {
+function renderRoutine(routine, matchingCount, selectedCount) {
   const result = document.querySelector('#routine-result');
   const status = document.querySelector('#routine-status');
   if (!result || !status) return;
@@ -593,22 +602,26 @@ function renderRoutine(routine, matchingCount) {
     return;
   }
 
-  status.textContent = `${matchingCount}개의 후보 중 ${routine.length}개 자세로 루틴을 만들었습니다.`;
+  status.textContent = `${matchingCount}개의 후보 중 ${selectedCount}개 자세를 골랐습니다. 연꽃 자세로 시작해 송장 자세로 마무리합니다.`;
   const fragment = document.createDocumentFragment();
+  let numberedIndex = 0;
 
   for (let start = 0; start < routine.length; start += 4) {
     const row = document.createElement('div');
     row.className = 'routine-row';
     const chunk = routine.slice(start, start + 4);
 
-    chunk.forEach(({ pose, role }, indexInChunk) => {
-      const index = start + indexInChunk;
+    chunk.forEach(({ pose, role, fixed }, indexInChunk) => {
       const item = document.createElement('a');
-      item.className = 'routine-card';
+      item.className = fixed ? 'routine-card routine-card-fixed' : 'routine-card';
       item.href = `detail.html?id=${encodeURIComponent(pose.id)}`;
 
-      const order = textElement('span', String(index + 1).padStart(2, '0'));
-      order.className = 'routine-order';
+      if (!fixed) {
+        numberedIndex += 1;
+        const order = textElement('span', String(numberedIndex).padStart(2, '0'));
+        order.className = 'routine-order';
+        item.append(order);
+      }
 
       const imageWrap = document.createElement('div');
       imageWrap.className = 'routine-picture';
@@ -621,7 +634,7 @@ function renderRoutine(routine, matchingCount) {
       const meta = textElement('p', `${role} · ${POSE_INTENSITIES[pose.english_name] || '보통'} · ${name.english}`);
       text.append(title, meta);
 
-      item.append(order, imageWrap, text);
+      item.append(imageWrap, text);
       row.append(item);
 
       if (indexInChunk < chunk.length - 1) {
@@ -733,8 +746,8 @@ if (name) {
         const bodyArea = document.querySelector('#routine-body')?.value || '';
         const intensity = document.querySelector('#routine-intensity')?.value || '';
         const count = Number(document.querySelector('#routine-count')?.value || 6);
-        const { routine, matchingCount } = makeRoutine(poses, { level, goal, bodyArea, intensity, count });
-        renderRoutine(routine, matchingCount);
+        const { routine, matchingCount, selectedCount } = makeRoutine(poses, { level, goal, bodyArea, intensity, count });
+        renderRoutine(routine, matchingCount, selectedCount);
       });
 
       render();

@@ -861,3 +861,57 @@ select:focus-visible {
     font-size: 13px;
     color: var(--muted);
 }
+
+.tree-media-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.tree-video {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #000;
+}
+
+.tree-video iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+}
+
+.tree-photo-note {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.tree-photo-note img {
+    max-width: 260px;
+    margin-bottom: 24px;
+}
+
+.tree-photo-note h2 {
+    margin: 0 0 12px;
+}
+
+.tree-photo-note p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .tree-media-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .tree-video {
+        max-width: 320px;
+    }
+}

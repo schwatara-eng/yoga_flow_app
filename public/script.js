@@ -839,9 +839,45 @@ document.title = `${name.korean} — ASANA`;
       const media = (window.ASANA_MEDIA || {})[pose.english_name] || {};
       const photos = media.photos || []; const gallery = document.querySelector('#gallery');
       statusText.textContent = photos.length ? `${photos.length}장의 사진` : '';
-      if (!photos.length) {
-        gallery.className = 'empty'; gallery.append(poseImage(pose), textElement('h2', '이 자세의 사진을 모으고 있어요.'), textElement('p', '다양한 사람들의 사진이 이곳에 펼쳐집니다.'));
-      }
+if (!photos.length) {
+  gallery.className = 'empty';
+
+  if (pose.english_name === 'Tree') {
+    const mediaGrid = document.createElement('div');
+    mediaGrid.className = 'tree-media-grid';
+
+    const videoWrap = document.createElement('div');
+    videoWrap.className = 'tree-video';
+
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/sQjCg2Qa_5U';
+    iframe.title = '나무 자세, 흔들려도 괜찮습니다 | 1분 아사나 EP.1';
+    iframe.allow =
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+
+    videoWrap.append(iframe);
+
+    const infoWrap = document.createElement('div');
+    infoWrap.className = 'tree-photo-note';
+
+    infoWrap.append(
+      poseImage(pose),
+      textElement('h2', '이 자세의 사진을 모으고 있어요.'),
+      textElement('p', '다양한 사람들의 사진이 이곳에 펼쳐집니다.')
+    );
+
+    mediaGrid.append(videoWrap, infoWrap);
+    gallery.append(mediaGrid);
+
+  } else {
+    gallery.append(
+      poseImage(pose),
+      textElement('h2', '이 자세의 사진을 모으고 있어요.'),
+      textElement('p', '다양한 사람들의 사진이 이곳에 펼쳐집니다.')
+    );
+  }
+}
       const dialog = document.querySelector('#lightbox');
       photos.forEach(photo => {
         const button = document.createElement('button'); button.className = 'photo';

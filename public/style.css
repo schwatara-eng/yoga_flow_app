@@ -269,6 +269,135 @@ select:focus-visible {
     outline-offset: 4px
 }
 
+
+.routine-builder {
+    border-top: 1px solid var(--ink);
+    padding: 30px 0 55px;
+    margin-bottom: 30px
+}
+
+.routine-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 26px
+}
+
+.routine-heading>div>p {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent)
+}
+
+.routine-heading h2 {
+    margin: 0;
+    font-size: clamp(24px, 3vw, 40px)
+}
+
+.routine-heading>p {
+    max-width: 430px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px
+}
+
+.routine-controls {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(130px, 1fr)) auto;
+    gap: 12px;
+    align-items: end
+}
+
+.routine-controls label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px
+}
+
+.routine-controls select {
+    width: 100%;
+    max-width: none;
+    margin-left: 0
+}
+
+#create-routine {
+    min-height: 42px;
+    padding: 11px 20px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    white-space: nowrap
+}
+
+#create-routine:hover {
+    opacity: .85
+}
+
+.routine-status {
+    margin: 18px 0 16px;
+    color: var(--muted);
+    font-size: 13px
+}
+
+.routine-result {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px
+}
+
+.routine-card {
+    display: grid;
+    grid-template-columns: 34px 92px 1fr;
+    align-items: center;
+    gap: 12px;
+    min-height: 112px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, .18)
+}
+
+.routine-card:hover {
+    border-color: var(--ink)
+}
+
+.routine-order {
+    align-self: start;
+    font-family: Georgia, serif;
+    font-size: 13px;
+    color: var(--accent)
+}
+
+.routine-picture {
+    width: 92px;
+    height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9ebdf;
+    overflow: hidden
+}
+
+.routine-picture img {
+    width: 82%;
+    height: 82%;
+    object-fit: contain
+}
+
+.routine-copy h3 {
+    margin: 0 0 6px;
+    font-size: 16px
+}
+
+.routine-copy p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5
+}
+
 @media(max-width:900px) {
     .cards {
         grid-template-columns: repeat(3, minmax(0, 1fr))
@@ -329,6 +458,47 @@ select:focus-visible {
         font-size: 17px
     }
 
+}
+
+
+@media(max-width:1100px) {
+    .routine-controls {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+
+    #create-routine {
+        width: 100%
+    }
+}
+
+@media(max-width:700px) {
+    .routine-heading {
+        align-items: flex-start;
+        flex-direction: column
+    }
+
+    .routine-controls {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .routine-result {
+        grid-template-columns: 1fr
+    }
+}
+
+@media(max-width:480px) {
+    .routine-controls {
+        grid-template-columns: 1fr
+    }
+
+    .routine-card {
+        grid-template-columns: 28px 78px 1fr
+    }
+
+    .routine-picture {
+        width: 78px;
+        height: 78px
+    }
 }
 
 /* 상세페이지 명칭 표기 */

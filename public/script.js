@@ -342,6 +342,175 @@ const POSE_BODY_AREAS = {
   "Wild Thing": ["가슴", "어깨", "팔", "등", "둔근"]
 };
 
+const POSE_TYPES = {
+  "Boat": ["앉기", "균형"],
+  "Half Boat": ["앉기", "균형"],
+  "Bow": ["엎드리기", "후굴"],
+  "Bridge": ["바로 눕기", "후굴"],
+  "Butterfly": ["앉기"],
+  "Camel": ["무릎 자세", "후굴"],
+  "Cat": ["무릎 자세"],
+  "Cow": ["무릎 자세", "후굴"],
+  "Chair": ["서기"],
+  "Child's Pose": ["무릎 자세", "전굴"],
+  "Corpse": ["바로 눕기"],
+  "Crescent Lunge": ["서기"],
+  "Crow": ["균형", "역자세"],
+  "Dolphin": ["역자세"],
+  "Downward-Facing Dog": ["역자세"],
+  "Eagle": ["서기", "균형"],
+  "Extended Hand to Toe": ["서기", "균형"],
+  "Extended Side Angle": ["서기"],
+  "Forearm Stand": ["균형", "역자세"],
+  "Forward Bend with Shoulder Opener": ["서기", "전굴"],
+  "Half-Moon": ["서기", "균형"],
+  "Handstand": ["균형", "역자세"],
+  "Low Lunge": ["무릎 자세"],
+  "Pigeon": ["앉기", "전굴"],
+  "King Pigeon": ["앉기", "후굴"],
+  "Plank": ["균형"],
+  "Plow": ["바로 눕기", "전굴", "역자세"],
+  "Pyramid": ["서기", "전굴"],
+  "Reverse Warrior": ["서기", "후굴"],
+  "Seated Forward Bend": ["앉기", "전굴"],
+  "Lotus": ["앉기"],
+  "Half Lord of the Fishes": ["앉기", "비틀기"],
+  "Shoulder Stand": ["바로 눕기", "역자세"],
+  "Side Plank": ["균형"],
+  "Sphinx": ["엎드리기", "후굴"],
+  "Splits": ["앉기"],
+  "Garland Pose": ["서기"],
+  "Standing Forward Bend": ["서기", "전굴"],
+  "Crescent Moon": ["서기", "후굴"],
+  "Side Splits": ["앉기"],
+  "Tree": ["서기", "균형"],
+  "Triangle": ["서기"],
+  "Upward-Facing Dog": ["엎드리기", "후굴"],
+  "Warrior One": ["서기"],
+  "Warrior Two": ["서기"],
+  "Warrior Three": ["서기", "균형"],
+  "Wheel": ["바로 눕기", "후굴"],
+  "Wild Thing": ["균형", "후굴"]
+};
+
+const POSE_GOALS = {
+  "Boat": ["근력", "균형", "집중"],
+  "Half Boat": ["근력", "균형", "집중"],
+  "Bow": ["유연성", "가동성", "활력"],
+  "Bridge": ["가동성", "근력", "자세 정렬"],
+  "Butterfly": ["유연성", "가동성", "이완"],
+  "Camel": ["유연성", "가동성", "활력"],
+  "Cat": ["가동성", "자세 정렬", "이완"],
+  "Cow": ["가동성", "자세 정렬", "활력"],
+  "Chair": ["근력", "자세 정렬", "활력"],
+  "Child's Pose": ["유연성", "이완", "집중"],
+  "Corpse": ["이완", "집중"],
+  "Crescent Lunge": ["가동성", "근력", "활력"],
+  "Crow": ["근력", "균형", "집중"],
+  "Dolphin": ["근력", "가동성", "활력"],
+  "Downward-Facing Dog": ["유연성", "근력", "자세 정렬"],
+  "Eagle": ["균형", "집중", "가동성"],
+  "Extended Hand to Toe": ["유연성", "균형", "집중"],
+  "Extended Side Angle": ["유연성", "근력", "자세 정렬"],
+  "Forearm Stand": ["근력", "균형", "집중"],
+  "Forward Bend with Shoulder Opener": ["유연성", "가동성", "이완"],
+  "Half-Moon": ["근력", "균형", "집중"],
+  "Handstand": ["근력", "균형", "집중"],
+  "Low Lunge": ["가동성", "유연성", "자세 정렬"],
+  "Pigeon": ["유연성", "가동성", "이완"],
+  "King Pigeon": ["유연성", "가동성", "집중"],
+  "Plank": ["근력", "자세 정렬", "집중"],
+  "Plow": ["유연성", "이완", "집중"],
+  "Pyramid": ["유연성", "자세 정렬", "집중"],
+  "Reverse Warrior": ["가동성", "자세 정렬", "활력"],
+  "Seated Forward Bend": ["유연성", "이완", "집중"],
+  "Lotus": ["가동성", "집중", "이완"],
+  "Half Lord of the Fishes": ["가동성", "자세 정렬", "집중"],
+  "Shoulder Stand": ["균형", "집중", "이완"],
+  "Side Plank": ["근력", "균형", "집중"],
+  "Sphinx": ["가동성", "자세 정렬", "이완"],
+  "Splits": ["유연성", "가동성", "집중"],
+  "Garland Pose": ["가동성", "유연성", "자세 정렬"],
+  "Standing Forward Bend": ["유연성", "이완", "집중"],
+  "Crescent Moon": ["가동성", "자세 정렬", "활력"],
+  "Side Splits": ["유연성", "가동성", "집중"],
+  "Tree": ["균형", "집중", "자세 정렬"],
+  "Triangle": ["유연성", "자세 정렬", "집중"],
+  "Upward-Facing Dog": ["가동성", "근력", "활력"],
+  "Warrior One": ["근력", "자세 정렬", "집중"],
+  "Warrior Two": ["근력", "자세 정렬", "집중"],
+  "Warrior Three": ["근력", "균형", "집중"],
+  "Wheel": ["가동성", "근력", "활력"],
+  "Wild Thing": ["가동성", "근력", "활력"]
+};
+
+const POSE_INTENSITIES = {
+  "Boat": "보통", "Half Boat": "보통", "Bow": "보통", "Bridge": "보통",
+  "Butterfly": "낮음", "Camel": "보통", "Cat": "낮음", "Cow": "낮음",
+  "Chair": "보통", "Child's Pose": "낮음", "Corpse": "낮음", "Crescent Lunge": "보통",
+  "Crow": "높음", "Dolphin": "보통", "Downward-Facing Dog": "보통", "Eagle": "보통",
+  "Extended Hand to Toe": "보통", "Extended Side Angle": "보통", "Forearm Stand": "높음",
+  "Forward Bend with Shoulder Opener": "낮음", "Half-Moon": "보통", "Handstand": "높음",
+  "Low Lunge": "낮음", "Pigeon": "낮음", "King Pigeon": "높음", "Plank": "보통",
+  "Plow": "보통", "Pyramid": "낮음", "Reverse Warrior": "보통", "Seated Forward Bend": "낮음",
+  "Lotus": "낮음", "Half Lord of the Fishes": "낮음", "Shoulder Stand": "높음",
+  "Side Plank": "보통", "Sphinx": "낮음", "Splits": "높음", "Garland Pose": "낮음",
+  "Standing Forward Bend": "낮음", "Crescent Moon": "낮음", "Side Splits": "높음",
+  "Tree": "낮음", "Triangle": "낮음", "Upward-Facing Dog": "보통", "Warrior One": "보통",
+  "Warrior Two": "보통", "Warrior Three": "보통", "Wheel": "높음", "Wild Thing": "높음"
+};
+
+const POSE_SEQUENCE_ROLES = {
+  "Boat": ["본운동"],
+  "Half Boat": ["본운동"],
+  "Bow": ["본운동"],
+  "Bridge": ["본운동", "마무리"],
+  "Butterfly": ["준비", "마무리"],
+  "Camel": ["본운동"],
+  "Cat": ["준비"],
+  "Cow": ["준비"],
+  "Chair": ["본운동"],
+  "Child's Pose": ["준비", "마무리", "최종 이완"],
+  "Corpse": ["최종 이완"],
+  "Crescent Lunge": ["준비", "본운동"],
+  "Crow": ["본운동"],
+  "Dolphin": ["준비", "본운동"],
+  "Downward-Facing Dog": ["준비", "본운동"],
+  "Eagle": ["본운동"],
+  "Extended Hand to Toe": ["본운동"],
+  "Extended Side Angle": ["본운동"],
+  "Forearm Stand": ["본운동"],
+  "Forward Bend with Shoulder Opener": ["마무리"],
+  "Half-Moon": ["본운동"],
+  "Handstand": ["본운동"],
+  "Low Lunge": ["준비"],
+  "Pigeon": ["마무리"],
+  "King Pigeon": ["본운동"],
+  "Plank": ["본운동"],
+  "Plow": ["마무리"],
+  "Pyramid": ["준비", "마무리"],
+  "Reverse Warrior": ["본운동"],
+  "Seated Forward Bend": ["마무리"],
+  "Lotus": ["마무리", "최종 이완"],
+  "Half Lord of the Fishes": ["마무리"],
+  "Shoulder Stand": ["본운동", "마무리"],
+  "Side Plank": ["본운동"],
+  "Sphinx": ["준비", "마무리"],
+  "Splits": ["본운동"],
+  "Garland Pose": ["준비"],
+  "Standing Forward Bend": ["준비", "마무리"],
+  "Crescent Moon": ["준비"],
+  "Side Splits": ["본운동"],
+  "Tree": ["준비", "본운동"],
+  "Triangle": ["준비", "본운동"],
+  "Upward-Facing Dog": ["준비", "본운동"],
+  "Warrior One": ["준비", "본운동"],
+  "Warrior Two": ["본운동"],
+  "Warrior Three": ["본운동"],
+  "Wheel": ["본운동"],
+  "Wild Thing": ["본운동"]
+};
+
 function getPoseName(pose) {
   return POSE_NAMES[pose.english_name] || {
     korean: pose.english_name,
@@ -354,6 +523,105 @@ function getPoseName(pose) {
 const statusText = document.querySelector('#status');
 function textElement(tag, text) { const el = document.createElement(tag); el.textContent = text || ''; return el; }
 function poseImage(pose) { const img = document.createElement('img'); img.src = pose.url_png || pose.url_svg; img.alt = pose.english_name; img.loading = 'lazy'; img.addEventListener('error', () => { img.replaceWith(textElement('span', '이미지를 불러올 수 없습니다')); }); return img; }
+function shuffled(items) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function routineRolePlan(count) {
+  if (count === 4) return ["준비", "본운동", "마무리", "최종 이완"];
+  if (count === 8) return ["준비", "준비", "본운동", "본운동", "본운동", "마무리", "마무리", "최종 이완"];
+  return ["준비", "준비", "본운동", "본운동", "마무리", "최종 이완"];
+}
+
+function makeRoutine(poses, options) {
+  const { level, goal, bodyArea, intensity, count } = options;
+
+  const matching = poses.filter((pose) => {
+    const areas = POSE_BODY_AREAS[pose.english_name] || [];
+    const goals = POSE_GOALS[pose.english_name] || [];
+    const poseIntensity = POSE_INTENSITIES[pose.english_name] || "보통";
+    return (!level || pose.difficulty_level === level)
+      && (!goal || goals.includes(goal))
+      && (!bodyArea || areas.includes(bodyArea))
+      && (!intensity || poseIntensity === intensity);
+  });
+
+  if (!matching.length) return { routine: [], matchingCount: 0 };
+
+  const plan = routineRolePlan(count);
+  const unused = new Set(matching.map((pose) => String(pose.id)));
+  const routine = [];
+
+  plan.forEach((role) => {
+    let pool = matching.filter((pose) => unused.has(String(pose.id))
+      && (POSE_SEQUENCE_ROLES[pose.english_name] || []).includes(role));
+
+    // 최종 이완은 조건에 맞는 자세가 없으면 사바사나/아기 자세를 전체 데이터에서 보완한다.
+    if (!pool.length && role === "최종 이완") {
+      pool = poses.filter((pose) => unused.has(String(pose.id))
+        && ["Corpse", "Child's Pose", "Lotus"].includes(pose.english_name));
+    }
+
+    if (!pool.length) {
+      pool = matching.filter((pose) => unused.has(String(pose.id)));
+    }
+
+    const selected = shuffled(pool)[0];
+    if (selected) {
+      routine.push({ pose: selected, role });
+      unused.delete(String(selected.id));
+    }
+  });
+
+  return { routine, matchingCount: matching.length };
+}
+
+function renderRoutine(routine, matchingCount) {
+  const result = document.querySelector('#routine-result');
+  const status = document.querySelector('#routine-status');
+  if (!result || !status) return;
+
+  result.replaceChildren();
+
+  if (!routine.length) {
+    status.textContent = '선택한 조건에 맞는 자세가 없습니다. 조건을 하나씩 줄여보세요.';
+    return;
+  }
+
+  status.textContent = `${matchingCount}개의 후보 중 ${routine.length}개 자세로 루틴을 만들었습니다.`;
+  const fragment = document.createDocumentFragment();
+
+  routine.forEach(({ pose, role }, index) => {
+    const item = document.createElement('a');
+    item.className = 'routine-card';
+    item.href = `detail.html?id=${encodeURIComponent(pose.id)}`;
+
+    const order = textElement('span', String(index + 1).padStart(2, '0'));
+    order.className = 'routine-order';
+
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'routine-picture';
+    imageWrap.append(poseImage(pose));
+
+    const text = document.createElement('div');
+    text.className = 'routine-copy';
+    const name = getPoseName(pose);
+    const title = textElement('h3', name.korean);
+    const meta = textElement('p', `${role} · ${POSE_INTENSITIES[pose.english_name] || '보통'} · ${name.english}`);
+    text.append(title, meta);
+
+    item.append(order, imageWrap, text);
+    fragment.append(item);
+  });
+
+  result.append(fragment);
+}
+
 async function start() {
   try {
     const response = await fetch("/api/poses");
@@ -377,6 +645,8 @@ async function start() {
         const query = (document.querySelector('#search')?.value || '').trim().toLowerCase();
         const level = document.querySelector('#level-filter')?.value || '';
         const bodyArea = document.querySelector('#body-filter')?.value || '';
+        const poseType = document.querySelector('#type-filter')?.value || '';
+        const goal = document.querySelector('#goal-filter')?.value || '';
 
         const results = poses.filter(p => {
           const name = getPoseName(p);
@@ -394,8 +664,12 @@ async function start() {
           const matchesLevel = !level || p.difficulty_level === level;
           const areas = POSE_BODY_AREAS[p.english_name] || [];
           const matchesBody = !bodyArea || areas.includes(bodyArea);
+          const types = POSE_TYPES[p.english_name] || [];
+          const matchesType = !poseType || types.includes(poseType);
+          const goals = POSE_GOALS[p.english_name] || [];
+          const matchesGoal = !goal || goals.includes(goal);
 
-          return matchesSearch && matchesLevel && matchesBody;
+          return matchesSearch && matchesLevel && matchesBody && matchesType && matchesGoal;
         });
         // 먼저 메모리 안에서 카드들을 만든 뒤 한 번에 교체한다.
         // 이렇게 하면 DOM을 비우는 순간 페이지 높이가 줄어들며 위로 튀는 현상을 줄일 수 있다.
@@ -435,6 +709,17 @@ if (name) {
           });
         }
       }
+      const createRoutineButton = document.querySelector('#create-routine');
+      createRoutineButton?.addEventListener('click', () => {
+        const level = document.querySelector('#routine-level')?.value || '';
+        const goal = document.querySelector('#routine-goal')?.value || '';
+        const bodyArea = document.querySelector('#routine-body')?.value || '';
+        const intensity = document.querySelector('#routine-intensity')?.value || '';
+        const count = Number(document.querySelector('#routine-count')?.value || 6);
+        const { routine, matchingCount } = makeRoutine(poses, { level, goal, bodyArea, intensity, count });
+        renderRoutine(routine, matchingCount);
+      });
+
       render();
 
       // 검색어를 입력하는 동안에는 카드 목록을 바꾸지 않는다.
@@ -449,6 +734,8 @@ if (name) {
 
       document.querySelector('#level-filter')?.addEventListener('change', () => render(true));
       document.querySelector('#body-filter')?.addEventListener('change', () => render(true));
+      document.querySelector('#type-filter')?.addEventListener('change', () => render(true));
+      document.querySelector('#goal-filter')?.addEventListener('change', () => render(true));
     } else {
       const id = new URLSearchParams(location.search).get('id');
       const pose = poses.find(p => String(p.id) === id);

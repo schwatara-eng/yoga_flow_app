@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>ASANA — 아사나 갤러리</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+    <script defer src="script.js?v=20261003-3"></script>
 </head>
 
 <body>
@@ -19,6 +19,78 @@
             <h1>하나의 자세.<br>수많은 몸의 이야기.</h1>
             <p>저마다의 몸과 삶으로 표현하는 아사나를 만나보세요.</p>
         </section>
+        <section class="routine-builder" aria-labelledby="routine-title">
+            <div class="routine-heading">
+                <div>
+                    <p>BUILD YOUR FLOW</p>
+                    <h2 id="routine-title">오늘의 요가 루틴 만들기</h2>
+                </div>
+                <p>조건을 고르면 준비부터 최종 이완까지 흐름에 맞춰 자세를 구성합니다.</p>
+            </div>
+
+            <div class="routine-controls">
+                <label>난이도
+                    <select id="routine-level">
+                        <option value="">전체</option>
+                        <option value="Beginner">초급</option>
+                        <option value="Intermediate">중급</option>
+                        <option value="Expert">고급</option>
+                    </select>
+                </label>
+                <label>운동 목적
+                    <select id="routine-goal">
+                        <option value="">전체</option>
+                        <option>유연성</option>
+                        <option>가동성</option>
+                        <option>근력</option>
+                        <option>균형</option>
+                        <option>자세 정렬</option>
+                        <option>집중</option>
+                        <option>이완</option>
+                        <option>활력</option>
+                    </select>
+                </label>
+                <label>주요 신체 부위
+                    <select id="routine-body">
+                        <option value="">전체</option>
+                        <option>목</option>
+                        <option>어깨</option>
+                        <option>가슴</option>
+                        <option>팔</option>
+                        <option>손목</option>
+                        <option>등</option>
+                        <option>코어</option>
+                        <option>엉덩관절</option>
+                        <option>둔근</option>
+                        <option>햄스트링</option>
+                        <option>허벅지</option>
+                        <option>무릎</option>
+                        <option>종아리</option>
+                        <option>발목</option>
+                    </select>
+                </label>
+                <label>운동 강도
+                    <select id="routine-intensity">
+                        <option value="">전체</option>
+                        <option>낮음</option>
+                        <option>보통</option>
+                        <option>높음</option>
+                    </select>
+                </label>
+                <label>자세 수
+                    <select id="routine-count">
+                        <option value="4">4개</option>
+                        <option value="6" selected>6개</option>
+                        <option value="8">8개</option>
+                    </select>
+                </label>
+                <button id="create-routine" type="button">루틴 만들기</button>
+            </div>
+
+            <p id="routine-status" class="routine-status" role="status">조건을 선택하고 ‘루틴 만들기’를 눌러보세요.</p>
+            <div id="routine-result" class="routine-result"></div>
+        </section>
+
         <section>
             <div class="section-head">
                 <h2>아사나 둘러보기</h2>
@@ -50,6 +122,34 @@
                             <option>무릎</option>
                             <option>종아리</option>
                             <option>발목</option>
+                        </select>
+                    </label>
+                    <label>자세 유형
+                        <select id="type-filter">
+                            <option value="">전체</option>
+                            <option>서기</option>
+                            <option>앉기</option>
+                            <option>무릎 자세</option>
+                            <option>바로 눕기</option>
+                            <option>엎드리기</option>
+                            <option>균형</option>
+                            <option>비틀기</option>
+                            <option>전굴</option>
+                            <option>후굴</option>
+                            <option>역자세</option>
+                        </select>
+                    </label>
+                    <label>운동 목적
+                        <select id="goal-filter">
+                            <option value="">전체</option>
+                            <option>유연성</option>
+                            <option>가동성</option>
+                            <option>근력</option>
+                            <option>균형</option>
+                            <option>자세 정렬</option>
+                            <option>집중</option>
+                            <option>이완</option>
+                            <option>활력</option>
                         </select>
                     </label>
                 </div>

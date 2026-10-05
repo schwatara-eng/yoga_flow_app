@@ -12,18 +12,34 @@
 
 body {
     margin: 0;
+    position: relative;
+    color: var(--ink);
+    font-family: Arial, 'Noto Sans KR', sans-serif;
+}
 
-    background:
-        linear-gradient(rgba(245, 243, 238, 0.4),
-            rgba(245, 243, 238, 0.4)),
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
+    background-image:
+        linear-gradient(
+            rgba(245, 243, 238, 0.4),
+            rgba(245, 243, 238, 0.4)
+        ),
         url("images/photo-1514477917009-389c76a86b68.jpg");
 
     background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
 
-    color: var(--ink);
-    font-family: Arial, 'Noto Sans KR', sans-serif;
+/* 폰 세로 화면에서는 사진 왼쪽을 기준으로 */
+@media (max-width: 600px) {
+    body::before {
+        background-position: left center;
+    }
 }
 
 a {

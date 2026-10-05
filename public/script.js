@@ -152,7 +152,7 @@ const POSE_NAMES = {
     english: "King Pigeon Pose"
   },
   "Plank": {
-    korean: "플랭크 자세",
+    korean: "플랭크",
     koreanSanskrit: "팔라카사나",
     roman: "Phalakāsana",
     english: "Plank Pose"

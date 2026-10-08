@@ -635,45 +635,80 @@ function findFlowRoute(matching, count, rolePlan, roles, recentFrequency = {}) {
   const eligible = new Set(byName.keys());
   const wanted = Number(count);
   if (!Number.isInteger(wanted) || wanted < 1 || eligible.size < wanted) return null;
-  const maxVisits = 150000;
-  let visits = 0;
-  const attempts = 12;
-  const scored = [];
-  for (let attempt = 0; attempt < attempts; attempt++) {
-    const used = new Set(['Lotus', 'Corpse']);
-    const path = [];
-    function dfs(from, depth, score) {
-      if (++visits > maxVisits) return false;
-      if (depth === wanted) {
-        const ending = (FLOW_CONNECTIONS[from] || []).find(e => e.to === 'Corpse');
-        if (!ending) return false;
-        scored.push({ path: path.slice(), score: score + ending.weight });
-        return true;
-      }
-      const plannedRole = rolePlan[depth];
-      const options = (FLOW_CONNECTIONS[from] || [])
-        .filter(e => eligible.has(e.to) && !used.has(e.to))
-        .map(e => ({ ...e, roleMatch: (roles[e.to] || []).includes(plannedRole),
-          rank: e.weight * 2 + ((roles[e.to] || []).includes(plannedRole) ? 5 : -4)
-             - (recentFrequency[e.to] || 0) * 2 + Math.random() * 9 }))
-        .sort((a,b) => b.rank-a.rank);
-      for (const edge of options) {
-        used.add(edge.to); path.push(byName.get(edge.to));
-        if (dfs(edge.to, depth+1, score+edge.rank)) return true;
-        path.pop(); used.delete(edge.to);
-      }
-      return false;
-    }
-    dfs('Lotus', 0, 0);
-    if (visits > maxVisits) break;
-  }
-  if (!scored.length) return null;
-  scored.sort((a,b) => b.score-a.score);
-  // Select from top routes, not always the single highest-scoring route.
-  const shortlist = scored.slice(0, Math.min(5, scored.length));
-  return shortlist[Math.floor(Math.random()*shortlist.length)].path;
-}
 
+  // 1차: 등록된 직접 연결만 사용한다.
+  // 2차: 1차로 전체 경로를 만들 수 없을 때만 필터 안의 자세 사이에서
+  //      낮은 점수의 보조 연결을 허용한다. 필터 조건은 절대 풀지 않는다.
+  function searchRoute(allowFallback) {
+    const maxVisits = 200000;
+    let visits = 0;
+    const scored = [];
+
+    function candidateEdges(from, depth, used) {
+      const plannedRole = rolePlan[depth];
+      const direct = new Map((FLOW_CONNECTIONS[from] || []).map(e => [e.to, e.weight]));
+      const candidates = [];
+
+      for (const name of eligible) {
+        if (used.has(name)) continue;
+
+        const directWeight = direct.get(name);
+        if (directWeight == null && !allowFallback) continue;
+
+        const roleMatch = (roles[name] || []).includes(plannedRole);
+        // 직접 연결을 압도적으로 우선하고, 역할은 '강제'가 아니라 가산점으로만 사용한다.
+        const connectionScore = directWeight != null ? directWeight * 3 : 2;
+        const rank = connectionScore
+          + (roleMatch ? 3 : 0)
+          - (recentFrequency[name] || 0) * 2
+          + Math.random() * 6;
+
+        candidates.push({ to: name, rank, direct: directWeight != null });
+      }
+
+      return candidates.sort((a, b) => b.rank - a.rank);
+    }
+
+    function canFinish(from) {
+      const directToCorpse = (FLOW_CONNECTIONS[from] || []).some(e => e.to === "Corpse");
+      // 마지막 자세→송장도 직접 연결을 우선한다.
+      // 엄격 경로가 없을 때만 자연스러운 종료 동작을 전제로 보조 연결을 허용한다.
+      return directToCorpse || allowFallback;
+    }
+
+    function dfs(from, depth, used, path, score) {
+      if (++visits > maxVisits) return;
+
+      if (depth === wanted) {
+        if (canFinish(from)) {
+          const endBonus = (FLOW_CONNECTIONS[from] || []).some(e => e.to === "Corpse") ? 12 : 0;
+          scored.push({ path: path.slice(), score: score + endBonus });
+        }
+        return;
+      }
+
+      const options = candidateEdges(from, depth, used).slice(0, 14);
+      for (const edge of options) {
+        used.add(edge.to);
+        path.push(byName.get(edge.to));
+        dfs(edge.to, depth + 1, used, path, score + edge.rank);
+        path.pop();
+        used.delete(edge.to);
+
+        if (visits > maxVisits || scored.length > 80) break;
+      }
+    }
+
+    dfs("Lotus", 0, new Set(["Lotus", "Corpse"]), [], 0);
+
+    if (!scored.length) return null;
+    scored.sort((a, b) => b.score - a.score);
+    const shortlist = scored.slice(0, Math.min(8, scored.length));
+    return shortlist[Math.floor(Math.random() * shortlist.length)].path;
+  }
+
+  return searchRoute(false) || searchRoute(true);
+}
 // Example integration inside makeRoutine, after `matching` is computed:
 // const plan = routineRolePlan(count);
 // const path = findFlowRoute(matching, count, plan, POSE_SEQUENCE_ROLES);
@@ -804,7 +839,7 @@ function makeRoutine(poses, options) {
       routine: [],
       matchingCount: matching.length,
       selectedCount: 0,
-      reason: "조건에 맞는 자세는 있지만 자연스럽게 이어지는 전체 루틴을 만들 수 없습니다. 조건을 하나 줄이거나 자세 수를 낮춰보세요."
+      reason: "조건에 맞는 자세 수가 부족하거나 연결 가능한 조합이 없습니다. 조건을 하나 줄이거나 자세 수를 낮춰보세요."
     };
   }
 

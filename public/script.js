@@ -815,14 +815,25 @@ function makeRoutine(poses, options) {
     };
   }
 
-  if (matching.length < count) {
-    return {
-      routine: [],
-      matchingCount: matching.length,
-      selectedCount: 0,
-      reason: `조건에 맞는 자세가 ${matching.length}개뿐이라 ${count}개 루틴을 만들 수 없습니다. 조건을 줄이거나 자세 수를 낮춰보세요.`
-    };
-  }
+if (matching.length < count) {
+  const availableCounts = [4, 6, 8, 10, 12]
+    .filter((n) => n <= matching.length);
+
+  const recommendedCount = availableCounts.length
+    ? Math.max(...availableCounts)
+    : null;
+
+  const countSuggestion = recommendedCount
+    ? `자세 수를 ${recommendedCount}개로 줄이거나`
+    : `자세 수 조건을 조정하거나`;
+
+  return {
+    routine: [],
+    matchingCount: matching.length,
+    selectedCount: 0,
+    reason: `조건에 맞는 자세가 ${matching.length}개입니다. ${count}개 루틴을 만들려면 ${countSuggestion}, 필터 조건 하나를 '전체'로 변경해 주세요.`
+  };
+}
 
   const plan = routineRolePlan(count);
   const recentFrequency = getRecentPoseFrequency();

@@ -1132,7 +1132,7 @@ if (!photos.length) {
   }
 }
 
-}
+
       const dialog = document.querySelector('#lightbox');
       photos.forEach(photo => {
         const button = document.createElement('button'); button.className = 'photo';

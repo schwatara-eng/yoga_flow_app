@@ -1075,10 +1075,25 @@ document.title = `${name.korean} — ASANA`;
       const media = (window.ASANA_MEDIA || {})[pose.english_name] || {};
       const photos = media.photos || []; const gallery = document.querySelector('#gallery');
       statusText.textContent = photos.length ? `${photos.length}장의 사진` : '';
+
 if (!photos.length) {
 
-  if (pose.english_name === 'Tree') {
+  const yogaVideos = {
+    'Tree': {
+      url: 'https://www.youtube.com/embed/sQjCg2Qa_5U',
+      title: '나무 자세, 흔들려도 괜찮습니다 | 1분 아사나 EP.1'
+    },
+    'Downward-Facing Dog': {
+      url: 'https://www.youtube.com/embed/YT_Imycm5yA',
+      title: '다운독 | 1분 아사나'
+    }
+  };
+
+  const yogaVideo = yogaVideos[pose.english_name];
+
+  if (yogaVideo) {
     gallery.className = 'tree-gallery';
+
     const treeSection = document.createElement('div');
     treeSection.className = 'tree-section';
 
@@ -1086,8 +1101,8 @@ if (!photos.length) {
     videoWrap.className = 'tree-video';
 
     const iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube.com/embed/sQjCg2Qa_5U';
-    iframe.title = '나무 자세, 흔들려도 괜찮습니다 | 1분 아사나 EP.1';
+    iframe.src = yogaVideo.url;
+    iframe.title = yogaVideo.title;
     iframe.allow =
       'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     iframe.allowFullscreen = true;
@@ -1115,6 +1130,8 @@ if (!photos.length) {
       textElement('p', '다양한 사람들의 사진이 이곳에 펼쳐집니다.')
     );
   }
+}
+
 }
       const dialog = document.querySelector('#lightbox');
       photos.forEach(photo => {

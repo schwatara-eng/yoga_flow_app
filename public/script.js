@@ -1078,16 +1078,15 @@ document.title = `${name.korean} — ASANA`;
 
 if (!photos.length) {
 
-  const yogaVideos = {
-    'Tree': {
-      url: 'https://www.youtube.com/embed/sQjCg2Qa_5U',
-      title: '나무 자세, 흔들려도 괜찮습니다 | 1분 아사나 EP.1'
-    },
-    'Downward-Facing Dog': {
-      url: 'https://www.youtube.com/embed/YT_Imycm5yA',
-      title: '다운독 | 1분 아사나'
-    }
-  };
+  // 쇼츠 정보는 videos.json에서 관리합니다.
+  let yogaVideos = {};
+  try {
+    const videoResponse = await fetch('./videos.json');
+    if (videoResponse.ok) yogaVideos = await videoResponse.json();
+    else console.warn('videos.json을 불러오지 못했습니다:', videoResponse.status);
+  } catch (videoError) {
+    console.warn('영상 목록을 불러오지 못했습니다:', videoError);
+  }
 
   const yogaVideo = yogaVideos[pose.english_name];
 
